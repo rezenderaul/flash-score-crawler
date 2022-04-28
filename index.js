@@ -2,6 +2,7 @@ const puppeteer = require("puppeteer");
 
 (async () => {
   const allMatchesDaily = [];
+  const matchesInLive = []
 
   const browser = await puppeteer.launch({
     headless: false,
@@ -194,7 +195,13 @@ const puppeteer = require("puppeteer");
       .map((match) => match.map((text) => text.trim()))
   );
 
-  getDailyMatches.filter(match => allMatchesDaily.indexOf(match) == -1).forEach(match => allMatchesDaily.push(match));
-  console.log(allMatchesDaily);
+  getDailyMatches
+    .filter(match => allMatchesDaily
+      .filter(data =>
+        data[2].indexOf(match[2]) == -1)
+      .forEach(match => allMatchesDaily.push(match)));
+  
+  allMatchesDaily.filter(match => match[1].length == 1 || match[1].length == 2).forEach(match => matchesInLive.push(match));
+  console.log(allMatchesDaily)
 
 })();
