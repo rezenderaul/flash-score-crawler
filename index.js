@@ -94,84 +94,92 @@ const puppeteer = require("puppeteer");
           }
         }
         
-        if (match.length == 12) {
-          [
-            data.id,
-            data.status,
-            data.teams.home,
-            data.teams.way,
-            data.score.home,
-            data.score.way,
-            ,
-            ,
-            ,
-            ,
-            data.redCards.home,
-            data.redCards.way
-          ] = match;
+        switch (match.length) {
+          case 12:
+            [
+              data.id,
+              data.status,
+              data.teams.home,
+              data.teams.way,
+              data.score.home,
+              data.score.way,
+              ,
+              ,
+              ,
+              ,
+              data.redCards.home,
+              data.redCards.way
+            ] = match;
+            break;
+
+          case 11:
+            [
+              data.id,
+              data.status,
+              data.teams.home,
+              data.teams.way,
+              data.score.home,
+              data.score.way,
+              ,
+              ,
+              ,
+              data.redCards.home,
+              data.redCards.way
+            ] = match;
+            break;
+          
+          case 10:
+            [
+              data.id,
+              data.status,
+              data.teams.home,
+              data.teams.way,
+              data.score.home,
+              data.score.way,
+              ,
+              ,
+              data.redCards.home,
+              data.redCards.way
+            ] = match;
+            break;
+
+          case 9:
+            [
+              data.id,
+              data.status,
+              ,
+              data.teams.home,
+              data.teams.way,
+              data.score.home,
+              data.score.way,
+              data.redCards.home,
+              data.redCards.way
+            ] = match;
+            break;
+
+          case 8:
+            [
+              data.id,
+              data.status,
+              data.teams.home,
+              data.teams.way,
+              data.score.home,
+              data.score.way,
+              data.redCards.home,
+              data.redCards.way
+            ] = match;
+            break;
+
+          case 6:
+            [ 
+              data.id,
+              data.status,
+              data.teams.home,
+              data.teams.way
+            ] = match;
+            break;
         }
-        if (match.length == 11) {
-          [
-            data.id,
-            data.status,
-            data.teams.home,
-            data.teams.way,
-            data.score.home,
-            data.score.way,
-            ,
-            ,
-            ,
-            data.redCards.home,
-            data.redCards.way
-          ] = match;
-        }
-        if (match.length == 10) {
-          [
-            data.id,
-            data.status,
-            data.teams.home,
-            data.teams.way,
-            data.score.home,
-            data.score.way,
-            ,
-            ,
-            data.redCards.home,
-            data.redCards.way
-          ] = match;
-        }
-        if (match.length == 9) {
-          [
-            data.id,
-            data.status,
-            ,
-            data.teams.home,
-            data.teams.way,
-            data.score.home,
-            data.score.way,
-            data.redCards.home,
-            data.redCards.way
-          ] = match;
-        }
-        if (match.length == 8) {
-          [
-            data.id,
-            data.status,
-            data.teams.home,
-            data.teams.way,
-            data.score.home,
-            data.score.way,
-            data.redCards.home,
-            data.redCards.way
-          ] = match;
-        }
-        if (match.length == 6) {
-          [ 
-            data.id,
-            data.status,
-            data.teams.home,
-            data.teams.way
-          ] = match;
-        }
+        
         return [
             data.id,
             data.status,
