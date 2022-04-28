@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
 
 (async () => {
+  const allMatchesDaily = [];
+
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
@@ -9,25 +11,25 @@ const puppeteer = require("puppeteer");
   const page = await browser.newPage();
   await page.goto("https://www.flashscore.com.br/");
 
-  await page.waitForTimeout(5000);
+  await (await page.waitForSelector("#onetrust-accept-btn-handler")).click();
 
   function convertToTime(time = 0) {
-    let preTime = '';
+    let preTime = "";
     let seconds = 0;
     let minutes = 0;
     let hours = 0;
 
-    if (typeof time != 'string') {
+    if (typeof time != "string") {
       preTime = time.toString().trim();
     } else {
       preTime = time.trim();
     }
 
-    if (preTime.indexOf('+') != -1) {
-      preTime = preTime.substring(0, preTime.indexOf('+'));
+    if (preTime.indexOf("+") != -1) {
+      preTime = preTime.substring(0, preTime.indexOf("+"));
     }
-    
-    let arr = '';
+
+    let arr = "";
 
     if (preTime.indexOf(":") == -1) {
       minutes = Number(time);
@@ -43,8 +45,8 @@ const puppeteer = require("puppeteer");
       seconds = arr[2];
     } else {
       return false;
-    };
-    return (hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000);
+    }
+    return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
   }
 
   const timeActually = () => {
@@ -52,8 +54,10 @@ const puppeteer = require("puppeteer");
     return date.toLocaleTimeString();
   };
 
-  const getDailyMatches = await page.evaluate(() =>
-    [...document.querySelectorAll('[title="Clique para detalhes do jogo!"]')]
+  const getDailyMatches = await page.evaluate(() => 
+    newMatchesDaily = [
+      ...document.querySelectorAll('[title="Clique para detalhes do jogo!"]'),
+    ]
       .map((match) =>
         match.attributes[0].textContent
           .concat("\n")
@@ -83,40 +87,93 @@ const puppeteer = require("puppeteer");
         let redWay = "0";
 
         if (match.length == 12) {
-          [ id, status, teamHome, teamWay, scoreHome, scoreWay, , , , , redHome, redWay, ] = match;
+          [
+            id,
+            status,
+            teamHome,
+            teamWay,
+            scoreHome,
+            scoreWay,
+            ,
+            ,
+            ,
+            ,
+            redHome,
+            redWay,
+          ] = match;
         }
         if (match.length == 11) {
-          [ id, status, teamHome, teamWay, scoreHome, scoreWay, , , , redHome, redWay, ] = match;
+          [
+            id,
+            status,
+            teamHome,
+            teamWay,
+            scoreHome,
+            scoreWay,
+            ,
+            ,
+            ,
+            redHome,
+            redWay,
+          ] = match;
         }
         if (match.length == 10) {
-          [ id, status, teamHome, teamWay, scoreHome, scoreWay, , , redHome, redWay, ] = match;
+          [
+            id,
+            status,
+            teamHome,
+            teamWay,
+            scoreHome,
+            scoreWay,
+            ,
+            ,
+            redHome,
+            redWay,
+          ] = match;
         }
         if (match.length == 9) {
-          [ id, status, , teamHome, teamWay, scoreHome, scoreWay, redHome, redWay, ] = match;
+          [
+            id,
+            status,
+            ,
+            teamHome,
+            teamWay,
+            scoreHome,
+            scoreWay,
+            redHome,
+            redWay,
+          ] = match;
         }
         if (match.length == 8) {
-          [ id, status, teamHome, teamWay, scoreHome, scoreWay, redHome, redWay, ] = match;
+          [
+            id,
+            status,
+            teamHome,
+            teamWay,
+            scoreHome,
+            scoreWay,
+            redHome,
+            redWay,
+          ] = match;
         }
         if (match.length == 6) {
           [id, status, teamHome, teamWay] = match;
         }
-        return [ id, status, teamHome, teamWay, scoreHome, scoreWay, redHome, redWay, ];
+        return [
+          id,
+          status,
+          teamHome,
+          teamWay,
+          scoreHome,
+          scoreWay,
+          redHome,
+          redWay,
+        ];
       })
-      .filter((match) => match[1] != "Encerrado")
-      .filter((match) => match[1] != "Adiado")
-      .filter((match) => match[1] != "Intervalo")
+      .map((match) => match.map((text) => text.trim()))
   );
 
-  let strategy2goals = getDailyMatches()
-    .filter(
-      (match) =>
-        match[1].trim().length == 2 &&
-        Number(match[1]) > 45 &&
-        Number(match[1]) < 80 &&
-        (match[4] - match[5] == 2 || match[5] - match[4] == 2)
-    )
-    .sort((a, b) => convertToTime(a[1]) - convertToTime(b[1]));
-
-    let strategy33Minutes = getDailyMatches()
+  getDailyMatches.filter(match => allMatchesDaily.indexOf(match) == -1).forEach(match => allMatchesDaily.push(match));
+  console.log(allMatchesDaily);
 
 })();
