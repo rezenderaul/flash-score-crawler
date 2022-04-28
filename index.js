@@ -77,97 +77,110 @@ const puppeteer = require("puppeteer");
       )
       .map((match) => match.split("\n"))
       .map((match) => {
-        let id = "";
-        let status = "";
-        let teamHome = "";
-        let teamWay = "";
-        let scoreHome = "0";
-        let scoreWay = "0";
-        let redHome = "0";
-        let redWay = "0";
-
+        let data = {
+          id: '',
+          status: '',
+          teams: {
+            home: '',
+            way: ''
+          },
+          score: {
+            home: '',
+            way: ''
+          },
+          redCards: {
+            home: '',
+            way: ''
+          }
+        }
+        
         if (match.length == 12) {
           [
-            id,
-            status,
-            teamHome,
-            teamWay,
-            scoreHome,
-            scoreWay,
+            data.id,
+            data.status,
+            data.teams.home,
+            data.teams.way,
+            data.score.home,
+            data.score.way,
             ,
             ,
             ,
             ,
-            redHome,
-            redWay,
+            data.redCards.home,
+            data.redCards.way
           ] = match;
         }
         if (match.length == 11) {
           [
-            id,
-            status,
-            teamHome,
-            teamWay,
-            scoreHome,
-            scoreWay,
+            data.id,
+            data.status,
+            data.teams.home,
+            data.teams.way,
+            data.score.home,
+            data.score.way,
             ,
             ,
             ,
-            redHome,
-            redWay,
+            data.redCards.home,
+            data.redCards.way
           ] = match;
         }
         if (match.length == 10) {
           [
-            id,
-            status,
-            teamHome,
-            teamWay,
-            scoreHome,
-            scoreWay,
+            data.id,
+            data.status,
+            data.teams.home,
+            data.teams.way,
+            data.score.home,
+            data.score.way,
             ,
             ,
-            redHome,
-            redWay,
+            data.redCards.home,
+            data.redCards.way
           ] = match;
         }
         if (match.length == 9) {
           [
-            id,
-            status,
+            data.id,
+            data.status,
             ,
-            teamHome,
-            teamWay,
-            scoreHome,
-            scoreWay,
-            redHome,
-            redWay,
+            data.teams.home,
+            data.teams.way,
+            data.score.home,
+            data.score.way,
+            data.redCards.home,
+            data.redCards.way
           ] = match;
         }
         if (match.length == 8) {
           [
-            id,
-            status,
-            teamHome,
-            teamWay,
-            scoreHome,
-            scoreWay,
-            redHome,
-            redWay,
+            data.id,
+            data.status,
+            data.teams.home,
+            data.teams.way,
+            data.score.home,
+            data.score.way,
+            data.redCards.home,
+            data.redCards.way
           ] = match;
         }
         if (match.length == 6) {
-          [id, status, teamHome, teamWay] = match;
+          [ 
+            data.id,
+            data.status,
+            data.teams.home,
+            data.teams.way
+          ] = match;
         }
         return [
-          id,
-          status,
-          teamHome,
-          teamWay,
-          scoreHome,
-          scoreWay,
-          redHome,
-          redWay,
+            data.id,
+            data.status,
+            data.teams.home,
+            data.teams.way,
+            data.score.home,
+            data.score.way,
+            data.redCards.home,
+            data.redCards.way
         ];
       })
       .map((match) => match.map((text) => text.trim()))
